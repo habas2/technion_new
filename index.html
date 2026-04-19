@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>تجربة الوصول للكاميرا</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
+        video { border: 2px solid #333; border-radius: 8px; width: 400px; height: 300px; margin-top: 20px; background-color: #eee; }
+        button { padding: 10px 20px; font-size: 16px; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <h2>تجربة أمان المتصفح (البحث العلمي)</h2>
+    <p>عند الضغط على الزر، سيطلب المتصفح إذن الوصول للكاميرا.</p>
+
+    <button id="startBtn">طلب تشغيل الكاميرا</button>
+    <br>
+    
+    <video id="videoElement" autoplay playsinline></video>
+
+    <script>
+        const video = document.getElementById('videoElement');
+        const btn = document.getElementById('startBtn');
+
+        btn.addEventListener('click', async () => {
+            try {
+                // هنا تكمن التقنية الأساسية: طلب الإذن من المتصفح
+                // المتصفح سيوقف التنفيذ هنا ويُظهر رسالة للمستخدم
+                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                
+                // إذا وافق المستخدم، سيتم تمرير البث إلى عنصر الفيديو لعرضه
+                video.srcObject = stream;
+                console.log("تم الحصول على إذن الكاميرا بنجاح.");
+                
+            } catch (error) {
+                // إذا ضغط المستخدم على "Block" أو حدث خطأ
+                console.error("تم رفض الإذن أو فشل الوصول.", error);
+                alert("تم منع الوصول للكاميرا أو لا توجد كاميرا متصلة.");
+            }
+        });
+    </script>
+
+</body>
+</html>
